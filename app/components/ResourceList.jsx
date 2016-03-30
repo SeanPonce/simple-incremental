@@ -1,0 +1,13 @@
+import React from 'react';
+import Resource from './Resource';
+
+export default class App extends React.Component {
+  render() {
+    let {dispatch} = this.props;
+    return (
+      <div className="ResourceList">
+        <Resource />
+      </div>
+    );
+  }
+}

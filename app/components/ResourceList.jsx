@@ -1,5 +1,5 @@
 import React from 'react';
-import Resource from './Resource';
+import Resource from './Resource.jsx';
 
 export default class App extends React.Component {
   render() {

@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default class App extends React.Component {
+export default class Resource extends React.Component {
   render() {
-    let {dispatch} = this.props;
+		let {resource, dispatch, id, onResourceAdd} = this.props;
     return (
       <div className="Resource">
-        <button>Add Resource</button>
+        <button onClick={(id) => (onResourceAdd(id))}>Add {resource.name}</button>
       </div>
     );
   }

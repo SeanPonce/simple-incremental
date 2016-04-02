@@ -10,8 +10,10 @@ import ResourceList from '../app/components/ResourceList.jsx';
 describe('ResourceList', () => {
 
     it('has className ResourceList', () => {
+      const resources=[];
+      const onResourceAdd = () => {};
 	const resourceList = TestUtils.renderIntoDocument(
-	    <ResourceList />
+	    <ResourceList resources={resources} onResourceAdd={onResourceAdd}/>
 	);
 
 	const resourceListNode = ReactDOM.findDOMNode(resourceList);

@@ -12,13 +12,14 @@ export default function update(state = initialState, action) {
       return Object.assign({}, state, {
         resources: state.resources.map( (resource) => {
          if ( resource.id === action.id ) {
-           console.log("Adding " + resource.name);
            newCredits += resource.credits;
          }
          return resource;
        }),
        credits: newCredits
      });
+    default:
+      console.log("No Action Found.");
   }
 
   return state;

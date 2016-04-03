@@ -4,7 +4,7 @@
   "description": "Simple Incremental Game",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest",
     "build": "webpack",
     "start": "webpack-dev-server"
   },

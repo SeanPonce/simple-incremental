@@ -8,16 +8,15 @@ import TestUtils from 'react-addons-test-utils';
 import ResourceList from '../app/components/ResourceList.jsx';
 
 describe('ResourceList', () => {
+  it('has className ResourceList', () => {
+    const resources=[];
+    const onResourceAdd = () => {};
+	  const resourceList = TestUtils.renderIntoDocument(
+	     <ResourceList resources={resources} onResourceAdd={onResourceAdd}/>
+	  );
 
-    it('has className ResourceList', () => {
-      const resources=[];
-      const onResourceAdd = () => {};
-	const resourceList = TestUtils.renderIntoDocument(
-	    <ResourceList resources={resources} onResourceAdd={onResourceAdd}/>
-	);
+	  const resourceListNode = ReactDOM.findDOMNode(resourceList);
 
-	const resourceListNode = ReactDOM.findDOMNode(resourceList);
-
-	expect(resourceListNode.className).toEqual("ResourceList");
-    });
+	  expect(resourceListNode.className).toEqual("ResourceList");
+  });
 });

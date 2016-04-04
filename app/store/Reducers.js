@@ -2,29 +2,29 @@ import Immutable from 'immutable';
 import {combineReducers} from 'redux';
 import DefaultState from './DefaultState';
 
-//const initialState = new Immutable.Map(DefaultState);
-const initialState = DefaultState;
+const initialState = Immutable.fromJS(DefaultState);
 
-export default function update(state = initialState, action) {
+function gameData(state = initialState, action) {
+  var newState = state;
   switch (action.type) {
     case "ADD_RESOURCE":
-      var newCredits = state.credits;
-      return Object.assign({}, state, {
-        resources: state.resources.map( (resource) => {
-         if ( resource.id === action.id ) {
-           newCredits += resource.credits;
-         }
-         return resource;
-       }),
-       credits: newCredits
-     });
+      var newCredits = state.get('credits');
+      state.get('resources').forEach( (resource) => {
+        if ( resource.get('id') === action.id ) {
+          newCredits += resource.get('credits');
+        }
+      });
+      newState = state.set('credits', newCredits);
+      break;
     default:
-      console.log("No Action Found.");
+      console.log("Action not recognized: " + action.type);
+      break;
   }
 
-  return state;
+  //console.log(newState);
+  return newState;
 }
 
-export default function() {
-  return update;
-};
+export default combineReducers({
+    gameData
+});

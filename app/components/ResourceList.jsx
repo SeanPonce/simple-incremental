@@ -7,10 +7,10 @@ export default class ResourceList extends React.Component {
 				return (
 						<div className="ResourceList">{resources.map(resource =>
 								<Resource
-									id ={resource.id}
-									key={resource.id}
-									resource={resource}
-									onResourceAdd={onResourceAdd.bind(null, resource.id)} />
+									id ={resource.get('id')}
+									key={resource.get('id')}
+									resource={resource.toJS()}
+									onResourceAdd={onResourceAdd.bind(null, resource.get('id'))} />
 						)}
 						</div>
 				);

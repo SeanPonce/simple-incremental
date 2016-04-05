@@ -1,27 +1,36 @@
 import React from 'react';
 import ResourceList from './ResourceList';
+import UpgradeList from './UpgradeList';
 import {connect} from 'react-redux';
-import {addResource} from "../actions/Actions.js";
+import {addResource, buyUpgrade, sellResource} from "../actions/Actions.js";
 
 @connect((state) => {
   const gameData = state.gameData;
   return {
-  credits: gameData.get('credits'),
+  money: gameData.get('money'),
+  upgrades: gameData.get('upgrades'),
   resources: gameData.get('resources')
   }
 }, {
-  addResource
+  addResource,
+  buyUpgrade,
+  sellResource
 })
 export default class App extends React.Component {
   render() {
-    const {resources, addResource, credits} = this.props;
+    const {resources, upgrades, addResource, buyUpgrade, sellResource,
+      money} = this.props;
     return (
       <div className="container">
-        <h1>Simple Incremental Game</h1>
-        <p>{credits}</p>
+        <h3>Simple Incremental Game</h3>
+        <h5>${money}</h5>
         <ResourceList
           resources={resources}
-          onResourceAdd={addResource} />
+          onResourceAdd={addResource}
+          onResourceSell={sellResource} />
+        <UpgradeList
+          upgrades={upgrades}
+          onBuyUpgrade={buyUpgrade} />
       </div>
     );
   }

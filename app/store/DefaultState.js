@@ -1,27 +1,30 @@
 import uuid from 'node-uuid';
 
 export default {
-  credits: 0,
+  money: 0,
   resources: [
     {
       id: uuid.v4(),
       name: 'Iron',
       time: 5,
-      credits: 20,
+      price: 20,
+      amount: 0,
       enabled: true
     },
     {
       id: uuid.v4(),
       name: 'Silver',
       time: 10,
-      credits: 100,
+      price: 100,
+      amount: 0,
       enabled: false
     },
     {
       id: uuid.v4(),
       name: 'Gold',
       time: 30,
-      credits: 500,
+      price: 500,
+      amount: 0,
       enabled: false
     },
   ],
@@ -30,13 +33,13 @@ export default {
     {
       id: uuid.v4(),
       name: 'Unlock Silver',
-      credits: 40,
+      price: 40,
       enabled: false
     },
     {
       id: uuid.v4(),
       name: 'Unlock Gold',
-      credits: 200,
+      price: 200,
       enabled: false
     },
   ]

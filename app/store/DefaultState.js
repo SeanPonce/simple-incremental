@@ -34,13 +34,13 @@ export default {
       id: uuid.v4(),
       name: 'Unlock Silver',
       price: 40,
-      enabled: false
+      state: 'hidden'
     },
     {
       id: uuid.v4(),
       name: 'Unlock Gold',
       price: 200,
-      enabled: false
+      state: 'hidden'
     },
   ]
 };

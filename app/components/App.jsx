@@ -28,9 +28,16 @@ export default class App extends React.Component {
           resources={resources}
           onResourceAdd={addResource}
           onResourceSell={sellResource} />
+        <h5>Available Upgrades</h5>
         <UpgradeList
+          filter='available'
           upgrades={upgrades}
           onBuyUpgrade={buyUpgrade} />
+        <h5>Purchased Upgrades</h5>
+          <UpgradeList
+            filter='purchased'
+            upgrades={upgrades}
+            onBuyUpgrade={buyUpgrade} />
       </div>
     );
   }

@@ -6,7 +6,7 @@ export default class Upgrade extends React.Component {
     var className = upgrade.enabled ? "button-primary" : "";
     return (
       <div className="Upgrade">
-        <button className={className} onClick={(id) => (onBuyUpgrade(id))}>Buy {upgrade.name}</button>
+        <button className={className} onClick={(id) => (onBuyUpgrade(id))}>Buy {upgrade.name} - ${upgrade.price}</button>
       </div>
     );
   }

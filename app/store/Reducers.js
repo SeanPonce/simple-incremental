@@ -30,7 +30,7 @@ function gameData(state = initialState, action) {
         }
         return resource;
       });
-      // Do not update state if nothing was sold
+      // Do not update state if nothing was soldsimp  npm
       if ( newMoney !== state.get('money') ) {
         newState = state.set('resources', Immutable.fromJS(resourcesPOJO))
           .set('money', newMoney);
@@ -38,21 +38,38 @@ function gameData(state = initialState, action) {
       break;
     case "BUY_UPGRADE":
       // TODO how to change value in map in list in map?
+      var price = 0;
       var upgradesPOJO = state.get('upgrades').toJS();
       upgradesPOJO = upgradesPOJO.map((upgrade) => {
-        if ( upgrade.id === action.id ) {
-          return Object.assign({}, upgrade, {enabled: !upgrade.enabled});
+        if ( upgrade.id === action.id &&
+             state.get('money') > upgrade.price ) {
+          price = upgrade.price;
+          return Object.assign({}, upgrade, {state: 'purchased'});
         }
         return upgrade;
       });
       newState = state.set('upgrades', Immutable.fromJS(upgradesPOJO));
+      newState = newState.set('money', newState.get('money') - price);
       break;
     default:
       console.log("Action not recognized: " + action.type);
       break;
   }
 
-  // console.log(newState);
+  if ( newState.get('money') > state.get('money') ) {
+    var upgrades = state.get('upgrades').toJS();
+    upgrades = upgrades.map((upgrade) => {
+      if ( upgrade.state === 'hidden' &&
+          newState.get('money') > (upgrade.price * 0.5) ) {
+        console.log(upgrade.name + " is " + 'available');
+        upgrade.state = 'available';
+      }
+      return upgrade;
+    });
+    return newState.set('upgrades', Immutable.fromJS(upgrades));
+  }
+
+  //console.log(newState);
   return newState;
 }
 

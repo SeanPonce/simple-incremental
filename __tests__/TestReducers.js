@@ -20,35 +20,30 @@ describe('Reducers', () => {
   });
 
   it('adds resources', () => {
-    DefaultState.resources.forEach( (resource) => {
+    Object.keys(DefaultState.resourceData).forEach( (key) => {
+      const resource = DefaultState.resourceData[key];
       const AddResourceAction = Actions.addResource(resource.id);
       const state = RootReducer(initialState, AddResourceAction);
-      state.gameData.get('resources').forEach((res) => {
-        if ( res.get('id') === resource.id ) {
-          expect(res.get('amount')).toEqual(1);
-        } else {
-          expect(res.get('amount')).toEqual(0);
-        }
-      });
+      expect(state.gameData.getIn(['resources', key])).toEqual(1);
     });
   });
 
   it('adds money when a resource is sold', () => {
-    DefaultState.resources.forEach( (resource) => {
+    Object.keys(DefaultState.resourceData).forEach( (key) => {
+      const resource = DefaultState.resourceData[key];
       const AddResourceAction = Actions.addResource(resource.id);
       const SellResourceAction = Actions.sellResource(resource.id);
       const state1 = RootReducer(initialState, AddResourceAction);
       const state2 = RootReducer(state1, SellResourceAction);
 
-      state2.gameData.get('resources').forEach((res) => {
-        expect(res.get('amount')).toEqual(0);
-      });
+      expect(state2.gameData.getIn(['resources', key])).toEqual(0);
       expect(state2.gameData.get('money')).toEqual(resource.price);
     });
   });
 
   it('does nothing when a resource with zero amount is sold', () => {
-    DefaultState.resources.forEach( (resource) => {
+    Object.keys(DefaultState.resourceData).forEach( (key) => {
+      const resource = DefaultState.resourceData[key];
       const SellResourceAction = Actions.sellResource(resource.id);
       const state = RootReducer(initialState, SellResourceAction);
       expect(state).toEqual(initialState);

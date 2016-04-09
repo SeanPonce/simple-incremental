@@ -1,74 +1,58 @@
 import Immutable from 'immutable';
 import {combineReducers} from 'redux';
+import {REHYDRATE} from 'redux-persist/constants';
 import DefaultState from './DefaultState';
 
 const initialState = Immutable.fromJS(DefaultState);
+
+function updateUpgrades(state) {
+  var resourceData = Object.assign({}, DefaultState.resourceData);
+
+  state.get('upgrades').keySeq().forEach((type) => {
+    const upgrade = state.getIn(['upgrades', type]);
+    if ( upgrade.get('purchased') === true ) {
+      switch( type ) {
+        case "UNLOCK_SILVER":
+          resourceData.silver.enabled = true;
+          break;
+        case "UNLOCK_GOLD":
+          resourceData.gold.enabled = true;
+          break;
+      }
+    }
+  });
+
+  return Immutable.fromJS(resourceData);
+}
 
 function gameData(state = initialState, action) {
   var newState = state;
   switch (action.type) {
     case "ADD_RESOURCE":
-      // TODO how to change value in map in list in map?
-      var resourcesPOJO = state.get('resources').toJS();
-      resourcesPOJO = resourcesPOJO.map( (resource) => {
-        if ( resource.id === action.id ) {
-          resource.amount += 1;
-        }
-        return resource;
-      });
-      newState = state.set('resources', Immutable.fromJS(resourcesPOJO));
+      newState = state.updateIn(['resources', action.id], amount => amount + 1);
       break;
+
     case "SELL_RESOURCE":
-      // TODO how to change value in map in list in map?
-      var newMoney = state.get('money');
-      var resourcesPOJO = state.get('resources').toJS();
-      resourcesPOJO = resourcesPOJO.map( (resource) => {
-        if ( resource.id     === action.id &&
-             resource.amount >   0 ) {
-          resource.amount -= 1;
-          newMoney += resource.price;
-        }
-        return resource;
-      });
-      // Do not update state if nothing was soldsimp  npm
-      if ( newMoney !== state.get('money') ) {
-        newState = state.set('resources', Immutable.fromJS(resourcesPOJO))
-          .set('money', newMoney);
+      if ( state.getIn(['resources', action.id]) > 0 ) {
+        newState = state.updateIn(['resources', action.id], amount => amount - 1);
+        newState = newState.update('money', money => money + state.getIn(['resourceData', action.id, 'price']));
       }
       break;
+
     case "BUY_UPGRADE":
-      // TODO how to change value in map in list in map?
-      var price = 0;
-      var upgradesPOJO = state.get('upgrades').toJS();
-      upgradesPOJO = upgradesPOJO.map((upgrade) => {
-        if ( upgrade.id === action.id &&
-             state.get('money') > upgrade.price ) {
-          price = upgrade.price;
-          return Object.assign({}, upgrade, {state: 'purchased'});
-        }
-        return upgrade;
-      });
-      newState = state.set('upgrades', Immutable.fromJS(upgradesPOJO));
-      newState = newState.set('money', newState.get('money') - price);
+      var money = state.get('money');
+      var price = state.getIn(['upgrades', action.id, 'price']);
+      if ( price <= money ) {
+        newState = state.set('money', money - price);
+        newState = newState.setIn(['upgrades', action.id, 'purchased'], true);
+        newState = newState.set('resourceData', updateUpgrades(newState));
+      }
       break;
+
     default:
       console.log("Action not recognized: " + action.type);
       break;
   }
-
-  if ( newState.get('money') > state.get('money') ) {
-    var upgrades = state.get('upgrades').toJS();
-    upgrades = upgrades.map((upgrade) => {
-      if ( upgrade.state === 'hidden' &&
-          newState.get('money') > (upgrade.price * 0.5) ) {
-        console.log(upgrade.name + " is " + 'available');
-        upgrade.state = 'available';
-      }
-      return upgrade;
-    });
-    return newState.set('upgrades', Immutable.fromJS(upgrades));
-  }
-
   //console.log(newState);
   return newState;
 }

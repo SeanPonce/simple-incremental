@@ -1,46 +1,48 @@
 import uuid from 'node-uuid';
 
+// Game Data when no upgrades are applied
 export default {
   money: 0,
-  resources: [
-    {
-      id: uuid.v4(),
+  resources: {
+    iron: 0,
+    silver: 0,
+    gold: 0
+  },
+  resourceData: {
+    iron: {
+      id: 'iron',
       name: 'Iron',
       time: 5,
       price: 20,
-      amount: 0,
       enabled: true
     },
-    {
-      id: uuid.v4(),
+    silver: {
+      id: 'silver',
       name: 'Silver',
       time: 10,
       price: 100,
-      amount: 0,
       enabled: false
     },
-    {
-      id: uuid.v4(),
+    gold: {
+      id: 'gold',
       name: 'Gold',
       time: 30,
       price: 500,
-      amount: 0,
       enabled: false
-    },
-  ],
-
-  upgrades: [
-    {
-      id: uuid.v4(),
+    }
+  },
+  upgrades: {
+    UNLOCK_SILVER: {
+      id: 'UNLOCK_SILVER',
       name: 'Unlock Silver',
       price: 40,
-      state: 'hidden'
+      purchased: false
     },
-    {
-      id: uuid.v4(),
+    UNLOCK_GOLD: {
+      id: 'UNLOCK_GOLD',
       name: 'Unlock Gold',
       price: 200,
-      state: 'hidden'
-    },
-  ]
+      purchased: false
+    }
+  }
 };

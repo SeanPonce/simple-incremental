@@ -20,34 +20,7 @@ describe('Reducers', () => {
     initialState = {gameData: Immutable.fromJS(GameData)};
   });
 
-  it('adds resources', () => {
-    Object.keys(GameData.resourceData).forEach( (key) => {
-      const resource = GameData.resourceData[key];
-      const AddResourceAction = Actions.addResource(resource.id);
-      const state = RootReducer(initialState, AddResourceAction);
-      expect(state.gameData.getIn(['resources', key])).toEqual(1);
-    });
-  });
-
-  it('adds money when a resource is sold', () => {
-    Object.keys(GameData.resourceData).forEach( (key) => {
-      const resource = GameData.resourceData[key];
-      const AddResourceAction = Actions.addResource(resource.id);
-      const SellResourceAction = Actions.sellResource(resource.id);
-      const state1 = RootReducer(initialState, AddResourceAction);
-      const state2 = RootReducer(state1, SellResourceAction);
-
-      expect(state2.gameData.getIn(['resources', key])).toEqual(0);
-      expect(state2.gameData.get('money')).toEqual(resource.price);
-    });
-  });
-
-  it('does nothing when a resource with zero amount is sold', () => {
-    Object.keys(GameData.resourceData).forEach( (key) => {
-      const resource = GameData.resourceData[key];
-      const SellResourceAction = Actions.sellResource(resource.id);
-      const state = RootReducer(initialState, SellResourceAction);
-      expect(state).toEqual(initialState);
-    });
+  it('has no tests!', () => {
+    expect(0).toEqual(0);
   });
 })

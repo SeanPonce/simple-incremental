@@ -10,10 +10,10 @@ import {persistStore, autoRehydrate} from 'redux-persist';
 import reduxPersistImmutable from 'redux-persist-immutable';
 
 const store = createStore(RootReducer, autoRehydrate());
-persistStore(store, {transforms: [reduxPersistImmutable]});
+// persistStore(store, {transforms: [reduxPersistImmutable]});
 
 // Uncomment to purge localStorage (DELETES GAME DATA)
-// persistStore(store, {transforms: [reduxPersistImmutable]}).purgeAll();
+persistStore(store, {transforms: [reduxPersistImmutable]}).purgeAll();
 
 ReactDOM.render(
   <Root store={store} />,

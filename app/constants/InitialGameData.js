@@ -8,6 +8,7 @@ export default {
     silver: 0,
     gold: 0
   },
+  progress: {},
   resourceData: {
     iron: {
       id: 'iron',

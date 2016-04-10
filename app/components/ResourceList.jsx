@@ -1,21 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {addResource, sellResource} from "../actions/Actions.js";
+import {startProgress, sellResource} from "../actions/Actions.js";
 import Resource from './Resource.jsx';
 
 @connect((state) => {
   const gameData = state.gameData;
   return {
   resources: gameData.get('resources'),
-  resourceData: gameData.get('resourceData')
+  resourceData: gameData.get('resourceData'),
+  progressList: gameData.get('progress')
   }
 }, {
-  addResource,
+  startProgress,
   sellResource
 })
 export default class ResourceList extends React.Component {
 		render() {
-				let {resources, resourceData, addResource, sellResource} = this.props;
+				let {progressList, resources, resourceData, startProgress, sellResource} = this.props;
 				return (
 						<div className="ResourceList">
 							<table className="u-full-width">
@@ -33,8 +34,9 @@ export default class ResourceList extends React.Component {
 											id ={resource.get('id')}
 											key={resource.get('id')}
 											amount={resources.get(resource.get('id'))}
+                      progress={progressList.get(resource.get('id')) === undefined ? 0 : progressList.get(resource.get('id')).progress}
 											resource={resource.toJS()}
-											onResourceAdd={addResource.bind(null, resource.get('id'))}
+											onStartProgress={startProgress.bind(null, resource.get('id'))}
 											onResourceSell={sellResource.bind(null, resource.get('id'))} />
 									)}
 								</tbody>

@@ -6,26 +6,26 @@ import Resource from './Resource.jsx';
 @connect((state) => {
   const gameData = state.gameData;
   return {
-  resources: gameData.get('resources'),
+  queue: gameData.get('queue'),
   resourceData: gameData.get('resourceData'),
   progressList: gameData.get('progress')
   }
 }, {
-  startProgress,
-  sellResource
+  startProgress
 })
 export default class ResourceList extends React.Component {
 		render() {
-				let {progressList, resources, resourceData, startProgress, sellResource} = this.props;
+				let {progressList, queue, resourceData, startProgress} = this.props;
 				return (
 						<div className="ResourceList">
 							<table className="u-full-width">
 								<thead>
 									<tr>
-										<th>Mine Resource</th>
+										<th>Resource</th>
+                    <th>Queue</th>
 										<th>Progress</th>
-										<th>Tons</th>
-										<th>Sale Price</th>
+										<th>Price</th>
+                    <th>Price/Second</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -33,11 +33,10 @@ export default class ResourceList extends React.Component {
 										<Resource
 											id ={resource.get('id')}
 											key={resource.get('id')}
-											amount={resources.get(resource.get('id'))}
+											queue={queue.get(resource.get('id'))}
                       progress={progressList.get(resource.get('id')) === undefined ? 0 : progressList.get(resource.get('id')).progress}
 											resource={resource.toJS()}
-											onStartProgress={startProgress.bind(null, resource.get('id'))}
-											onResourceSell={sellResource.bind(null, resource.get('id'))} />
+											onStartProgress={startProgress.bind(null, resource.get('id'))} />
 									)}
 								</tbody>
 							</table>

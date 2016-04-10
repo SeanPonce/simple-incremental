@@ -8,7 +8,10 @@ function getTime() {
 }
 
 function updateUpgrades(state) {
-  var resourceData = Object.assign({}, InitialGameData.resourceData);
+  var resourceData2 = Immutable.fromJS(InitialGameData.resourceData).toJS();
+  resourceData2.iron.price = 0;
+  var resourceData = Immutable.fromJS(InitialGameData.resourceData).toJS();
+  console.log(resourceData.iron.price);
 
   state.get('upgrades').keySeq().forEach((type) => {
     const upgrade = state.getIn(['upgrades', type]);
@@ -20,6 +23,33 @@ function updateUpgrades(state) {
         case "UNLOCK_GOLD":
           resourceData.gold.enabled = true;
           break;
+        case "IRON_PRICE_1":
+          resourceData.iron.price += 20;
+          break;
+        case "IRON_PRICE_2":
+          resourceData.iron.price += 60;
+          break;
+        case "IRON_PRICE_3":
+          resourceData.iron.price += 150;
+          break;
+        case "SILVER_PRICE_1":
+          resourceData.silver.price += 50;
+          break;
+        case "SILVER_PRICE_2":
+          resourceData.silver.price += 100;
+          break;
+        case "SILVER_PRICE_3":
+          resourceData.silver.price += 350;
+          break;
+        case "GOLD_PRICE_1":
+          resourceData.gold.price += 250;
+          break;
+        case "GOLD_PRICE_2":
+          resourceData.gold.price += 500;
+          break;
+        case "GOLD_PRICE_3":
+          resourceData.gold.price += 750;
+          break;
       }
     }
   });
@@ -30,17 +60,6 @@ function updateUpgrades(state) {
 export default function(state = initialState, action) {
   var newState = state;
   switch (action.type) {
-    case "ADD_RESOURCE":
-      newState = state.updateIn(['resources', action.id], amount => amount + 1);
-      break;
-
-    case "SELL_RESOURCE":
-      if ( state.getIn(['resources', action.id]) > 0 ) {
-        newState = state.updateIn(['resources', action.id], amount => amount - 1);
-        newState = newState.update('money', money => money + state.getIn(['resourceData', action.id, 'price']));
-      }
-      break;
-
     case "BUY_UPGRADE":
       var money = state.get('money');
       var price = state.getIn(['upgrades', action.id, 'price']);
@@ -57,9 +76,12 @@ export default function(state = initialState, action) {
           start: getTime(),
           id: action.id,
           progress: 0,
-          duration: 2000
+          duration: state.getIn(['resourceData', action.id, "time"])
         });
+      } else {
+        newState = state.updateIn(['queue', action.id], queue => queue + 1);
       }
+
       break;
 
     case "UPDATE_PROGRESS":
@@ -75,7 +97,16 @@ export default function(state = initialState, action) {
       }).filter(progress => progress !== undefined));
 
       completeList.forEach((id) => {
-        newState = newState.updateIn(['resources', id], amount => amount + 1);
+        if ( state.getIn(['queue', id]) > 0 ) {
+          newState = newState.updateIn(['queue', id], queue => queue - 1);
+          newState = newState.setIn(['progress', id], {
+            start: getTime(),
+            id: id,
+            progress: 0,
+            duration: newState.getIn(['resourceData', id, "time"])
+          });
+        }
+        newState = newState.update('money', money => money + newState.getIn(['resourceData', id, 'price']));
       })
       break;
 

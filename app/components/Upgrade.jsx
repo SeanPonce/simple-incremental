@@ -6,13 +6,13 @@ export default class Upgrade extends React.Component {
     if ( upgrade.purchased ) {
       return (
         <div className="Upgrade">
-          <button className="">{upgrade.name}</button>
+          <button className="btn btn-default">{upgrade.name}</button>
         </div>
       );
     } else {
       return (
         <div className="Upgrade">
-          <button className="button-primary" onClick={(id) => (onBuyUpgrade(id))}>Buy {upgrade.name} - ${upgrade.price}</button>
+          <button className="btn btn-info" onClick={(id) => (onBuyUpgrade(id))}>{upgrade.name} - ${upgrade.price}</button>
         </div>
       );
     }

@@ -1,5 +1,7 @@
-import './css/normalize.css';
-import './css/skeleton.css';
+ // import './css/normalize.css';
+ // import './css/skeleton.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

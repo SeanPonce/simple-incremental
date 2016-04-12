@@ -18,14 +18,12 @@ export default class ResourceList extends React.Component {
 				let {progressList, queue, resourceData, startProgress} = this.props;
 				return (
 						<div className="ResourceList">
-							<table className="u-full-width">
+							<table className="table">
 								<thead>
 									<tr>
 										<th>Resource</th>
-                    <th>Queue</th>
 										<th>Progress</th>
 										<th>Price</th>
-                    <th>Price/Second</th>
 									</tr>
 								</thead>
 								<tbody>

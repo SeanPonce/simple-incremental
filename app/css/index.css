@@ -1,11 +1,7 @@
-body {
-  background-color: black;
-}
-
-.App {
-  background-color: #4C5B6B;
-  color: white;
-  font-family: sans-serif;
-  border-radius: 0.5em;
-  padding: 0.5em;
+.progress .progress-bar {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
 }

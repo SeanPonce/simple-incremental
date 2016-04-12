@@ -18,7 +18,7 @@ export default class App extends React.Component {
     const {resources, resourceData, upgrades, money,
       addResource, buyUpgrade, sellResource} = this.props;
     return (
-      <div className="container">
+      <div className="well well-lg">
         <h3>Simple Incremental Game</h3>
         <h5>${money}</h5>
         <ResourceList />

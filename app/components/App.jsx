@@ -18,16 +18,12 @@ export default class App extends React.Component {
     const {resources, resourceData, upgrades, money,
       addResource, buyUpgrade, sellResource} = this.props;
     return (
-      <div className="well well-lg">
+      <div className="container" style={{width: 600}}>
         <h3>Simple Incremental Game</h3>
         <h5>${money}</h5>
         <ResourceList />
-        <h5>Available Upgrades</h5>
         <UpgradeList
           filter='available' />
-        <h5>Purchased Upgrades</h5>
-          <UpgradeList
-            filter='purchased' />
       </div>
     );
   }

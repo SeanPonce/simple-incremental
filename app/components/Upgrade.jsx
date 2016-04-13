@@ -5,15 +5,21 @@ export default class Upgrade extends React.Component {
 		let {upgrade, id, onBuyUpgrade} = this.props;
     if ( upgrade.purchased ) {
       return (
-        <div className="Upgrade">
-          <button className="btn btn-default">{upgrade.name}</button>
-        </div>
+        <tr>
+          <td>{upgrade.name}</td>
+          <td>
+            ${upgrade.price}
+          </td>
+        </tr>
       );
     } else {
       return (
-        <div className="Upgrade">
-          <button className="btn btn-info" onClick={(id) => (onBuyUpgrade(id))}>{upgrade.name} - ${upgrade.price}</button>
-        </div>
+        <tr>
+          <td>{upgrade.name}</td>
+          <td>
+            <button className="btn btn-info" onClick={(id) => (onBuyUpgrade(id))}>${upgrade.price}</button>
+          </td>
+        </tr>
       );
     }
   }
